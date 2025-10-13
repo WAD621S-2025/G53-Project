@@ -11,7 +11,7 @@ if (is_post() && ($_POST['action'] ?? '') === 'delete') {
     exit;
 }
 
-$all = array_merge($repo->allByType('CROP'), $repo->allByType('LIVESTOCK'));
+$all = array_merge($repo->allByTypeWithInactive('CROP'), $repo->allByTypeWithInactive('LIVESTOCK'));
 view_partial_header('Products');
 ?>
 <h2>Products</h2>

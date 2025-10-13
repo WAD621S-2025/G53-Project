@@ -10,11 +10,15 @@ view_partial_header('AgriPulse — Home');
 <div class="grid">
   <?php foreach ($crops as $p): ?>
     <div class="card">
-      <h3><?= e($p['name']) ?></h3>
-      <p><?= e($p['description'] ?? '') ?></p>
-      <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
-      <p>Available: <?= e($p['quantity']) ?></p>
-      <a class="btn-primary" href="<?= BASE_URL ?>/product.php?id=<?= $p['id'] ?>">View</a>
+  <h3><?= e($p['name']) ?></h3>
+  <p><?= e($p['description'] ?? '') ?></p>
+  <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
+  <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+      <?php if ((int)$p['quantity'] > 0): ?>
+        <a class="btn-primary" href="<?= BASE_URL ?>/product.php?id=<?= $p['id'] ?>">View</a>
+      <?php else: ?>
+        <button class="btn-primary" disabled>Out of stock</button>
+      <?php endif; ?>
     </div>
   <?php endforeach; ?>
 </div>
@@ -23,11 +27,15 @@ view_partial_header('AgriPulse — Home');
 <div class="grid">
   <?php foreach ($livestock as $p): ?>
     <div class="card">
-      <h3><?= e($p['name']) ?></h3>
-      <p><?= e($p['description'] ?? '') ?></p>
-      <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
-      <p>Available: <?= e($p['quantity']) ?></p>
-      <a class="btn-primary" href="<?= BASE_URL ?>/product.php?id=<?= $p['id'] ?>">View</a>
+  <h3><?= e($p['name']) ?></h3>
+  <p><?= e($p['description'] ?? '') ?></p>
+  <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
+  <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+      <?php if ((int)$p['quantity'] > 0): ?>
+        <a class="btn-primary" href="<?= BASE_URL ?>/product.php?id=<?= $p['id'] ?>">View</a>
+      <?php else: ?>
+        <button class="btn-primary" disabled>Out of stock</button>
+      <?php endif; ?>
     </div>
   <?php endforeach; ?>
 </div>
