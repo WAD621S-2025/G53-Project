@@ -10,6 +10,20 @@ class ProductRepository {
         return $stmt->fetchAll();
     }
 
+    /**
+     * Return all products for a type, including inactive ones.
+     * This keeps the original allByType behavior unchanged and provides
+     * a method for pages that want to surface inactive items.
+     *
+     * @param string $type
+     * @return array
+     */
+    public function allByTypeWithInactive(string $type): array {
+        $stmt = $this->pdo->prepare('SELECT * FROM products WHERE type = ? ORDER BY created_at DESC');
+        $stmt->execute([$type]);
+        return $stmt->fetchAll();
+    }
+
     public function find(int $id) {
         $stmt = $this->pdo->prepare('SELECT * FROM products WHERE id = ?');
         $stmt->execute([$id]);
