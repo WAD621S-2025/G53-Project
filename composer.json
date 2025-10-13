@@ -1,0 +1,13 @@
+{
+  "name": "agripulse/farm-tracker",
+  "description": "AgriPulse Namibia - Farm Produce & Livestock Tracker (WAD621S)",
+  "type": "project",
+  "require": {
+    "phpmailer/phpmailer": "^6.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+
+/vendor/
+/storage/outbox/*
+/storage/receipts/*
+/.env
+.DS_Store
+Thumbs.db
