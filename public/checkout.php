@@ -1,37 +1,50 @@
 
+
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
 
+// Ensure user is logged in
 $user = current_user();
 if (!$user) { redirect('/login.php'); }
+// Only buyers can checkout; admins are redirected
 if ($user['role'] !== 'BUYER') {
-    // buyers only checkout; admins can test by creating a buyer account
     redirect('/');
 }
 
+// Initialize repositories and services
 $repo = new ProductRepository(db());
 $svc = new OrderService(db());
 
+// Build cart items and calculate total
 $cart = $_SESSION['cart'] ?? [];
 $items = [];
 $total = 0;
 foreach ($cart as $pid => $qty) {
     $p = $repo->find((int)$pid);
     if ($p && $qty > 0) {
-        $items[] = ['product_id'=>(int)$pid,'quantity'=>(int)$qty,'unit_price'=>(float)$p['unit_price'],'name'=>$p['name']];
+        $items[] = [
+            'product_id' => (int)$pid,
+            'quantity' => (int)$qty,
+            'unit_price' => (float)$p['unit_price'],
+            'name' => $p['name']
+        ];
         $total += (float)$p['unit_price'] * (int)$qty;
     }
 }
+// Redirect if cart is empty
 if (!$items) { redirect('/cart.php'); }
 
+// Handle order submission
 if (is_post()) {
     try {
+        // Create order and get order details
         $orderId = $svc->createOrder($user['id'], $items);
-        // build receipt
         $order = $svc->getOrderWithItems($orderId);
+
+        // Build receipt HTML
         ob_start();
         ?>
-        <h2>Receipt — Order #<?= $order['id'] ?></h2>
+        <h2>Receipt &mdash; Order #<?= $order['id'] ?></h2>
         <p>Buyer: <?= e($order['buyer_name']) ?> (<?= e($order['buyer_email']) ?>)</p>
         <p>Date: <?= e($order['created_at']) ?></p>
         <table border="1" cellpadding="6" cellspacing="0">
@@ -49,16 +62,16 @@ if (is_post()) {
         <?php
         $html = ob_get_clean();
 
-        // save receipt HTML
+        // Save receipt HTML to storage
         $dir = __DIR__ . '/../storage/receipts';
         if (!is_dir($dir)) { @mkdir($dir, 0777, true); }
         $path = $dir . '/order_' . $order['id'] . '.html';
         file_put_contents($path, $html);
 
-        // email (optional, per config)
+        // Optionally send receipt by email
         send_html_mail($order['buyer_email'], $order['buyer_name'], 'Your AgriPulse Receipt #' . $order['id'], $html);
 
-        // clear cart
+        // Clear cart and redirect to thank you page
         $_SESSION['cart'] = [];
         redirect('/thanks.php?order=' . $orderId);
     } catch (Exception $e) {
@@ -66,6 +79,7 @@ if (is_post()) {
     }
 }
 
+// Render checkout page
 view_partial_header('Checkout');
 ?>
 <h2>Checkout</h2>

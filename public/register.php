@@ -25,11 +25,11 @@ view_partial_header('Register');
 <?php if ($ok): ?><div class="notice" style="border-color:var(--ok);color:#bbf7d0"><?= e($ok) ?></div><?php endif; ?>
 <form method="post">
   <div class="form-row">
-    <div><label>Full Name<br><input class="input" type="text" name="name" required></label></div>
-    <div><label>Email<br><input class="input" type="email" name="email" required></label></div>
+    <div><label>Full Name <span style="color:red">*</span><br><input class="input" type="text" name="name" required></label></div>
+    <div><label>Email <span style="color:red">*</span><br><input class="input" type="email" name="email" required></label></div>
   </div>
   <div class="form-row">
-    <div><label>Password<br><input class="input" type="password" name="password" required></label></div>
+    <div><label>Password <span style="color:red">*</span><br><input class="input" type="password" name="password" required></label></div>
   </div>
   <p><button class="btn-primary" type="submit">Create Account</button></p>
 </form>
