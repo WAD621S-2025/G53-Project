@@ -1,22 +1,29 @@
 
+
 <?php
+// Redirects the user to a given path and exits script execution
 function redirect(string $path) {
     header('Location: ' . BASE_URL . $path);
     exit;
 }
 
+// Returns the full asset URL for a given relative path
 function asset(string $path): string {
     return BASE_URL . '/assets/' . ltrim($path, '/');
 }
 
+// Escapes a string for safe HTML output
 function e(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
 
+// Returns true if the current request is a POST
 function is_post(): bool {
     return ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';
 }
 
+// Renders the HTML header and navigation bar
+// Shows different nav links depending on user role
 function view_partial_header(string $title = 'AgriPulse') {
     $user = $_SESSION['user'] ?? null;
     ?>
@@ -58,6 +65,7 @@ function view_partial_header(string $title = 'AgriPulse') {
     <?php
 }
 
+// Renders the HTML footer
 function view_partial_footer() {
     ?>
     </main>
