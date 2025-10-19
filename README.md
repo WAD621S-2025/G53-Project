@@ -1,13 +1,13 @@
 
 # AgriPulse Namibia — Farm Produce & Livestock Tracker
 
-**Goal:** Simple marketplace for farmers (admin) to list **Crops** and **Livestock**; buyers can register, log in, add to cart, checkout, and receive an HTML receipt. SMTP email receipts supported via PHPMailer (local dev with MailHog or external SMTP).
+A simple marketplace for farmersm who are the admins on the platform to list and manage **Crops** and **Livestock**; buyers can register, log in, add to cart, checkout, and receive a receipt of their purchase through MailHog. 
 
-## Tech
+## Tech we ysed
 - PHP 8+ (XAMPP)
-- MySQL (MariaDB)
+- MySQL/ PhPMyAdmin
 - HTML/CSS/JS
-- PHPMailer (via Composer)
+- PHPMailer confirgured through Composer
 
 ## Quick Start (XAMPP on Windows)
 1. Copy the whole **agripulse** folder to: `C:\xampp\htdocs\agripulse`
@@ -23,25 +23,21 @@
      composer install
      ```
 5. Configure app:
-   - Copy `app/config.example.php` to `app/config.php`
    - Update DB credentials if needed.
    - For local email testing, install MailHog (see below) and set SMTP to `127.0.0.1:1025` with no auth.
 6. Visit the site:
    - <http://localhost/agripulse/public/>
-7. Default admin (farmer) login:
+7. The admin login information:
    - **Email:** farmer@agripulse.com
    - **Password:** farmer1
 
-## SMTP Options
-### A) Local dev — MailHog (recommended for demo)
+## SMTP Used
+### A) Mailhog
 1. Download MailHog for Windows (GitHub releases).
 2. Run `MailHog.exe` (it opens SMTP :1025 and Web UI :8025).
 3. Set in `app/config.php` → `MAIL_HOST=127.0.0.1`, `MAIL_PORT=1025`, `MAIL_USERNAME=""`, `MAIL_PASSWORD=""`, `MAIL_SECURE=""`
-4. Check emails at <http://localhost:8025>
+4. Check purchase confirmation emails at <http://localhost:8025>
 
-### B) External SMTP (e.g., Brevo/Sendinblue or Gmail)
-- Set `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM`, `MAIL_FROM_NAME` in `app/config.php`.
-- Gmail requires 2FA + App Passwords; otherwise use a provider like Brevo.
 
 ## Project Structure
 ```
@@ -80,14 +76,4 @@ agripulse/
 ```
 
 ## Receipts
-- Always saved to `storage/receipts/order_{id}.html`
-- If SMTP configured, also emailed to the buyer. A copy of the HTML is saved to `storage/outbox/`
-
-## Git
-```bash
-git init
-git remote add origin https://github.com/got-fry/G53-Project
-git add .
-git commit -m "Starter code: AgriPulse tracker"
-git push -u origin main
-```
+- Sent to MailHog
