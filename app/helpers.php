@@ -34,7 +34,9 @@ function view_partial_header(string $title = 'AgriPulse') {
         <div class="brand"><a href="<?= BASE_URL ?>/">AgriPulse</a></div>
         <nav class="nav">
             <a href="<?= BASE_URL ?>/">Home</a>
-            <a href="<?= BASE_URL ?>/cart.php">Cart</a>
+            <?php if (!$user || ($user['role'] ?? '') === 'BUYER'): ?>
+                <a href="<?= BASE_URL ?>/cart.php">Cart</a>
+            <?php endif; ?>
             <?php if ($user): ?>
                 <?php if ($user['role'] === 'BUYER'): ?>
                     <a href="<?= BASE_URL ?>/buyer/orders.php">My Orders</a>
