@@ -22,11 +22,20 @@ view_partial_header('Products');
 <h2>Products</h2>
 <!-- Link to create a new product -->
 <p><a class="btn-primary" href="<?= BASE_URL ?>/admin/product_new.php">New Product</a></p>
+<div class="table-wrapper">
 <table class="table">
   <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Unit</th><th>Price</th><th>Qty</th><th>Active</th><th></th></tr></thead>
   <tbody>
   <?php foreach ($all as $p): ?>
     <tr>
+      <td data-label="id"><?= e($p['id']) ?></td>
+      <td data-label="name"><?= e($p['name']) ?></td>
+      <td data-label="type"><?= e($p['type']) ?></td>
+      <td data-label="unit"><?= e($p['unit']) ?></td>
+      <td data-label="price">N$<?= e(number_format($p['unit_price'],2)) ?></td>
+      <td data-label="quantity"><?= e($p['quantity']) ?></td>
+      <td data-label="active"><?= $p['is_active'] ? 'Yes' : 'No' ?></td>
+      <td data-label="">
       <!-- Product details -->
       <td><?= e($p['id']) ?></td>
       <td><?= e($p['name']) ?></td>
@@ -47,5 +56,6 @@ view_partial_header('Products');
   <?php endforeach; ?>
   </tbody>
 </table>
+</div>
 <!-- Render footer -->
 <?php view_partial_footer(); ?>

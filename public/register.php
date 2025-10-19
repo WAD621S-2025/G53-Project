@@ -31,6 +31,6 @@ view_partial_header('Register');
   <div class="form-row">
     <div><label>Password <span style="color:red">*</span><br><input class="input" type="password" name="password" required></label></div>
   </div>
-  <p><button class="btn-primary" type="submit">Create Account</button></p>
+  <p><button class="btn-secondary" type="submit">Create Account</button></p>
 </form>
 <?php view_partial_footer(); ?>

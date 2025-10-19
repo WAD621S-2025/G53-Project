@@ -63,12 +63,18 @@ view_partial_header('Cart');
   <!-- Empty cart message -->
   <p>Cart is empty.</p>
 <?php else: ?>
+  <div class="table-wrapper">
   <!-- Cart table -->
   <table class="table">
     <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th><th></th></tr></thead>
     <tbody>
       <?php foreach ($lines as $ln): ?>
       <tr>
+        <td data-label="name"><?= e($ln['name']) ?></td>
+        <td data-label="quantity"><?= e($ln['quantity']) ?></td>
+        <td data-label="price">N$<?= e(number_format($ln['unit_price'],2)) ?></td>
+        <td data-label="total">N$<?= e(number_format($ln['subtotal'],2)) ?></td>
+        <td data-label="">
         <td><?= e($ln['name']) ?></td>
         <td><?= e($ln['quantity']) ?></td>
         <td>N$<?= e(number_format($ln['unit_price'],2)) ?></td>
@@ -86,6 +92,7 @@ view_partial_header('Cart');
       <tr><th colspan="3" style="text-align:right">Total</th><th>N$<?= e(number_format($total,2)) ?></th><th></th></tr>
     </tbody>
   </table>
+  </div>
   <p>
     <!-- Clear cart button -->
     <form method="post" style="display:inline">

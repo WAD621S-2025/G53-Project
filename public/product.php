@@ -17,6 +17,9 @@ $user = $_SESSION['user'] ?? null;
 // Render header and navigation
 view_partial_header('Product: ' . $p['name']);
 ?>
+
+<div class="product-page">
+  <div class="product-details card">
 <div class="card">
   <!-- Product name -->
   <h2><?= e($p['name']) ?></h2>
@@ -28,6 +31,11 @@ view_partial_header('Product: ' . $p['name']);
   <p>Price: <strong>N$<?= e(number_format($p['unit_price'],2)) ?></strong></p>
   <!-- Stock status -->
   <p>Available: <?= e($p['quantity']) ?> <?php if (!$isAvailable): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+  <?php if ($isAvailable && $p['quantity'] > 0): ?>
+  </div>
+</div>
+
+<div class="product-actions">
   <!-- Show Add to Cart form only if product is available, in stock, and user is not admin -->
   <?php if ($isAvailable && $p['quantity'] > 0 && (! $user || ($user['role'] ?? '') !== 'ADMIN')): ?>
   <form method="post" action="<?= BASE_URL ?>/cart.php">

@@ -38,32 +38,28 @@ function view_partial_header(string $title = 'AgriPulse') {
     </head>
     <body>
     <header class="header">
-        <div class="brand"><a href="<?= BASE_URL ?>/">AgriPulse</a></div>
-        <nav class="nav">
-            <!-- Home link always visible -->
-            <a href="<?= BASE_URL ?>/">Home</a>
-            <!-- Cart link only for buyers and guests -->
-            <?php if (!$user || ($user['role'] ?? '') === 'BUYER'): ?>
-                <a href="<?= BASE_URL ?>/cart.php">Cart</a>
-            <?php endif; ?>
-            <?php if ($user): ?>
-                <!-- Buyer-only orders link -->
-                <?php if ($user['role'] === 'BUYER'): ?>
-                    <a href="<?= BASE_URL ?>/buyer/orders.php">My Orders</a>
+        <div class="logo"><a href="<?= BASE_URL ?>/">AgriPulse</a></div>
+            <nav class="nav">
+                <ul>
+                <li><a href="<?= BASE_URL ?>/">Home</a></li>
+                <li><a href="<?= BASE_URL ?>/cart.php">Cart</a></li>
+                <?php if ($user): ?>
+                    <?php if ($user['role'] === 'BUYER'): ?>
+                <li><a href="<?= BASE_URL ?>/buyer/orders.php">My Orders</a></li>
+                    <?php endif; ?>
+                    <?php if ($user['role'] === 'ADMIN'): ?>
+                <li><a href="<?= BASE_URL ?>/admin/dashboard.php">Admin</a></li>
+                    <?php endif; ?>
+                <li><div class="user">
+                    <span class="welcome">Welcome, <?= e($user['name']) ?></span>
+                <li><a class="btn" href="<?= BASE_URL ?>/logout.php">Logout</a></li>
+                </div></li>
+                <?php else: ?>
+                <li><a class="btn" href="<?= BASE_URL ?>/login.php">Login</a></li>
+                <li><a class="btn" href="<?= BASE_URL ?>/register.php">Sign Up</a></li>
                 <?php endif; ?>
-                <!-- Admin dashboard link -->
-                <?php if ($user['role'] === 'ADMIN'): ?>
-                    <a href="<?= BASE_URL ?>/admin/dashboard.php">Admin</a>
-                <?php endif; ?>
-                <!-- Welcome message and logout for logged-in users -->
-                <span class="welcome">Welcome, <?= e($user['name']) ?></span>
-                <a class="btn" href="<?= BASE_URL ?>/logout.php">Logout</a>
-            <?php else: ?>
-                <!-- Login and signup for guests -->
-                <a class="btn" href="<?= BASE_URL ?>/login.php">Login</a>
-                <a class="btn" href="<?= BASE_URL ?>/register.php">Sign Up</a>
-            <?php endif; ?>
-        </nav>
+                </ul>
+            </nav>
     </header>
     <main class="container">
     <?php
@@ -74,7 +70,8 @@ function view_partial_footer() {
     ?>
     </main>
     <footer class="footer">
-      <p>&copy; <?= date('Y') ?> AgriPulse Namibia</p>
+      <p>&copy; <?= date('Y') ?> Empowering Farmers | 🌽AgriPulse Namibia</p>
+    <button class="btn" id="theme-toggle"><span class="icon1">🌙</span><span class="icon2">☀️</span></button>
     </footer>
     </body>
     </html>
