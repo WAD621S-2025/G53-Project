@@ -43,10 +43,10 @@ function view_partial_header(string $title = 'AgriPulse') {
                     <?php if ($user['role'] === 'ADMIN'): ?>
                 <li><a href="<?= BASE_URL ?>/admin/dashboard.php">Admin</a></li>
                     <?php endif; ?>
-                <div class="user">
+                <li><div class="user">
                     <span class="welcome">Welcome, <?= e($user['name']) ?></span>
                 <li><a class="btn" href="<?= BASE_URL ?>/logout.php">Logout</a></li>
-                </div>
+                </div></li>
                 <?php else: ?>
                 <li><a class="btn" href="<?= BASE_URL ?>/login.php">Login</a></li>
                 <li><a class="btn" href="<?= BASE_URL ?>/register.php">Sign Up</a></li>

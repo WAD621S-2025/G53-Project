@@ -50,16 +50,17 @@ view_partial_header('Cart');
 <?php if (!$lines): ?>
   <p>Cart is empty.</p>
 <?php else: ?>
+  <div class="table-wrapper">
   <table class="table">
     <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th><th></th></tr></thead>
     <tbody>
       <?php foreach ($lines as $ln): ?>
       <tr>
-        <td><?= e($ln['name']) ?></td>
-        <td><?= e($ln['quantity']) ?></td>
-        <td>N$<?= e(number_format($ln['unit_price'],2)) ?></td>
-        <td>N$<?= e(number_format($ln['subtotal'],2)) ?></td>
-        <td>
+        <td data-label="name"><?= e($ln['name']) ?></td>
+        <td data-label="quantity"><?= e($ln['quantity']) ?></td>
+        <td data-label="price">N$<?= e(number_format($ln['unit_price'],2)) ?></td>
+        <td data-label="total">N$<?= e(number_format($ln['subtotal'],2)) ?></td>
+        <td data-label="">
           <form method="post" style="display:inline">
             <input type="hidden" name="product_id" value="<?= $ln['product_id'] ?>">
             <button class="btn-secondary" name="action" value="remove" data-confirm="Remove this item?">Remove</button>
@@ -70,6 +71,7 @@ view_partial_header('Cart');
       <tr><th colspan="3" style="text-align:right">Total</th><th>N$<?= e(number_format($total,2)) ?></th><th></th></tr>
     </tbody>
   </table>
+  </div>
   <p>
     <form method="post" style="display:inline">
       <button class="btn-secondary" name="action" value="clear" data-confirm="Clear cart?">Clear</button>

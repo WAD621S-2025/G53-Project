@@ -38,10 +38,10 @@ if (is_post()) {
           <tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr>
           <?php foreach ($order['items'] as $it): ?>
             <tr>
-              <td><?= e($it['name']) ?></td>
-              <td><?= e($it['quantity']) ?></td>
-              <td>N$<?= e(number_format($it['unit_price'],2)) ?></td>
-              <td>N$<?= e(number_format($it['unit_price']*$it['quantity'],2)) ?></td>
+              <td data-label="name"><?= e($it['name']) ?></td>
+              <td data-label="quantity"><?= e($it['quantity']) ?></td>
+              <td data-label="price">N$<?= e(number_format($it['unit_price'],2)) ?></td>
+              <td data-label="subtotal">N$<?= e(number_format($it['unit_price']*$it['quantity'],2)) ?></td>
             </tr>
           <?php endforeach; ?>
           <tr><th colspan="3" align="right">Total</th><th>N$<?= e(number_format($order['total_amount'],2)) ?></th></tr>
