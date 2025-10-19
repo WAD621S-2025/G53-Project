@@ -1,17 +1,23 @@
 
+
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
 
+// Initialize error variable
 $error = null;
+// Handle login form submission
 if (is_post()) {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
+    // Attempt login; redirect on success
     if (login($email, $password)) {
         redirect('/');
     } else {
         $error = "Invalid credentials";
     }
 }
+
+// Render login page
 view_partial_header('Login');
 ?>
 <h2>Login</h2>
