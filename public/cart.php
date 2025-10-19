@@ -12,10 +12,13 @@ if (is_post()) {
         $pid = (int)$_POST['product_id'];
         $qty = max(1, (int)$_POST['quantity']);
         $p = $repo->find($pid);
-        if ($p && $p['is_active'] && $qty <= $p['quantity']) {
-            if (!isset($cart[$pid])) $cart[$pid] = 0;
-            $cart[$pid] += $qty;
-        }
+    // Disallow admins from adding to cart
+    $user = $_SESSION['user'] ?? null;
+    $isAdmin = $user && ($user['role'] ?? '') === 'ADMIN';
+    if (! $isAdmin && $p && $p['is_active'] && $qty <= $p['quantity']) {
+      if (!isset($cart[$pid])) $cart[$pid] = 0;
+      $cart[$pid] += $qty;
+    }
     } elseif ($action === 'remove') {
         $pid = (int)$_POST['product_id'];
         unset($cart[$pid]);

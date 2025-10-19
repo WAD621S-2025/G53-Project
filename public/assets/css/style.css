@@ -1,5 +1,5 @@
 
-:root { --bg:#0b1220; --card:#111a2d; --muted:#cbd5e1; --accent:#38bdf8; --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444; }
+:root { --bg:#176b22; --card:#111a2d; --muted:#cbd5e1; --accent:#38bdf8; --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444; }
 
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(120deg,#0b1220,#0f172a);color:#e2e8f0}
 a{color:var(--accent);text-decoration:none}
