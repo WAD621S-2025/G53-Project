@@ -1,12 +1,19 @@
 
+
 <?php
+// Admin product edit page: allows editing details of a single product
 require_once __DIR__ . '/../../app/bootstrap.php';
+// Only allow access for admin users
 require_login('ADMIN');
 $repo = new ProductRepository(db());
+// Get product ID from query string
 $id = (int)($_GET['id'] ?? 0);
+// Fetch product from DB
 $p = $repo->find($id);
+// If product not found, show 404
 if (!$p) { http_response_code(404); die('Not found'); }
 $error = null;
+// Handle form submission (POST): update product
 if (is_post()) {
     $data = [
         'type' => $_POST['type'] ?? $p['type'],
@@ -18,18 +25,23 @@ if (is_post()) {
         'avg_weight_kg' => $_POST['avg_weight_kg'] !== '' ? (float)$_POST['avg_weight_kg'] : null,
         'is_active' => isset($_POST['is_active']) ? 1 : 0,
     ];
+    // Validate required fields
     if ($data['name'] && $data['unit'] && $data['unit_price'] > 0) {
         $repo->update($id, $data);
+        // Redirect to products list after save
         header('Location: ' . BASE_URL . '/admin/products.php');
         exit;
     } else {
         $error = "Please provide a name, unit, and positive unit price.";
     }
 }
+// Render header and navigation
 view_partial_header('Edit Product');
 ?>
 <h2>Edit Product</h2>
+<!-- Show error if validation fails -->
 <?php if ($error): ?><div class="notice" style="border-color:var(--danger);color:#fecaca"><?= e($error) ?></div><?php endif; ?>
+<!-- Product edit form -->
 <form method="post">
   <div class="form-row">
     <div><label>Type<br>
@@ -53,4 +65,5 @@ view_partial_header('Edit Product');
   </div>
   <p><button class="btn-primary" type="submit">Save</button></p>
 </form>
+<!-- Render footer -->
 <?php view_partial_footer(); ?>

@@ -1,20 +1,31 @@
 
+
 <?php
+// Homepage: lists all crops and livestock products for buyers and guests
 require_once __DIR__ . '/../app/bootstrap.php';
 $repo = new ProductRepository(db());
+// Get all active crops and livestock
 $crops = $repo->allByType('CROP');
 $livestock = $repo->allByType('LIVESTOCK');
+// Get current user (if logged in)
 $user = $_SESSION['user'] ?? null;
+// Render header and navigation
 view_partial_header('AgriPulse  Home');
 ?>
+<!-- Crops listing -->
 <h2>Crops</h2>
 <div class="grid">
   <?php foreach ($crops as $p): ?>
     <div class="card">
-  <h3><?= e($p['name']) ?></h3>
-  <p><?= e($p['description'] ?? '') ?></p>
-  <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
-  <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+      <!-- Product name -->
+      <h3><?= e($p['name']) ?></h3>
+      <!-- Product description -->
+      <p><?= e($p['description'] ?? '') ?></p>
+      <!-- Unit and price -->
+      <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
+      <!-- Stock status -->
+      <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+      <!-- View button logic: admin goes to admin/products.php, buyers/guests go to product page, out of stock disables button -->
       <?php if ($user && ($user['role'] ?? '') === 'ADMIN'): ?>
         <a class="btn-primary" href="<?= BASE_URL ?>/admin/products.php">View</a>
       <?php else: ?>
@@ -28,14 +39,15 @@ view_partial_header('AgriPulse  Home');
   <?php endforeach; ?>
 </div>
 
+<!-- Livestock listing -->
 <h2 style="margin-top:24px">Livestock</h2>
 <div class="grid">
   <?php foreach ($livestock as $p): ?>
     <div class="card">
-  <h3><?= e($p['name']) ?></h3>
-  <p><?= e($p['description'] ?? '') ?></p>
-  <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
-  <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
+      <h3><?= e($p['name']) ?></h3>
+      <p><?= e($p['description'] ?? '') ?></p>
+      <p><span class="badge"><?= e($p['unit']) ?></span> N$<?= e(number_format($p['unit_price'],2)) ?></p>
+      <p>Available: <?= e($p['quantity']) ?> <?php if ((int)$p['quantity'] <= 0): ?><span style="color:#f59e0b">(Unavailable)</span><?php endif; ?></p>
       <?php if ($user && ($user['role'] ?? '') === 'ADMIN'): ?>
         <a class="btn-primary" href="<?= BASE_URL ?>/admin/products.php">View</a>
       <?php else: ?>
@@ -48,4 +60,5 @@ view_partial_header('AgriPulse  Home');
     </div>
   <?php endforeach; ?>
 </div>
+<!-- Render footer -->
 <?php view_partial_footer(); ?>
